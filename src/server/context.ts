@@ -1,5 +1,6 @@
-import * as trpc from '@trpc/server';
-import * as trpcNext from '@trpc/server/adapters/next';
+/* eslint-disable @typescript-eslint/no-empty-interface */
+import type * as trpc from '@trpc/server';
+import type * as trpcNext from '@trpc/server/adapters/next';
 
 interface CreateContextOptions {
   // session: Session | null
@@ -9,6 +10,7 @@ interface CreateContextOptions {
  * Inner function for `createContext` where we create the context.
  * This is useful for testing when we don't want to mock Next.js' request/response
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function createContextInner(_opts: CreateContextOptions) {
   return {};
 }
@@ -19,10 +21,9 @@ export type Context = trpc.inferAsyncReturnType<typeof createContextInner>;
  * Creates context for an incoming request
  * @link https://trpc.io/docs/context
  */
-export async function createContext(
-  opts: trpcNext.CreateNextContextOptions,
-): Promise<Context> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function createContext(opts: trpcNext.CreateNextContextOptions): Promise<Context> {
   // for API-response caching see https://trpc.io/docs/caching
 
-  return await createContextInner({});
+  return createContextInner({});
 }

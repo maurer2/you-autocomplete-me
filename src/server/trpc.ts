@@ -5,5 +5,5 @@ import { initTRPC } from '@trpc/server';
 // is common in i18n libraries.
 const t = initTRPC.create();
 // Base router and procedure helpers
-export const router = t.router;
-export const procedure = t.procedure;
+export const { router } = t;
+export const { procedure } = t;

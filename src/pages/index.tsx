@@ -1,9 +1,9 @@
-import Head from "next/head";
-import styles from "@/styles/Home.module.css";
-import { trpc } from "../utils/trpc";
+import Head from 'next/head';
+import styles from '@/styles/Home.module.css';
+import { trpc } from '../utils/trpc';
 
 export default function Home() {
-  const hello = trpc.hello.useQuery({ text: "client" });
+  const hello = trpc.hello.useQuery({ text: 'client' });
 
   return (
     <>
@@ -22,8 +22,7 @@ export default function Home() {
               <pre>{JSON.stringify(hello.data)}</pre>
             </code>
           </div>
-        )
-      }
+        )}
       </main>
     </>
   );
