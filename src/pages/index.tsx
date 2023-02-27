@@ -6,10 +6,20 @@ import { trpc } from '../utils/trpc';
 
 export default function Home() {
   const [inputValue, setInputValue] = useState('');
+  const [newStations, setNewStations] = useState({});
   const stations = trpc.tubeStations.useQuery({ search: inputValue });
+  const stationsMutation = trpc.tubeStationsMutations.useMutation();
 
   const handleChange = (event: FormEvent<HTMLInputElement>) => {
     setInputValue(event.currentTarget.value);
+  };
+
+  const handleClick = () => {
+    stationsMutation.mutate();
+
+    const results = stationsMutation.data?.results;
+    console.log(results);
+    setNewStations(results)
   };
 
   return (
@@ -24,13 +34,22 @@ export default function Home() {
         <form>
           <label htmlFor="stations">Station name</label>{' '}
           <input list="stations" name="stations" onChange={handleChange} value={inputValue} />
+
+          <div>
+            <button type="button" onClick={handleClick}>
+              Add "King William Street Station"
+            </button>
+            <hr/>
+            <code>{JSON.stringify(newStations)}</code>
+          </div>
+
           <h2>Results</h2>
           <p>
-            <output>{stations.data?.numberOfEntries}</output> entries found.
+            <output>{stations.data?.numberOfEntries ?? 0}</output> entries found.
           </p>
           {Boolean(stations.data?.results.length) && (
             <ul>
-              {stations.data.results.map(([key, value]) => (
+              {stations.data?.results.map(([key, value]) => (
                 <li value={key} key={key}>
                   {value}
                 </li>

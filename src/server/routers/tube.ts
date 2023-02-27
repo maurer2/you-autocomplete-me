@@ -30,7 +30,6 @@ const tubeStations = procedure
       search: z.string().min(0),
     }),
   )
-  // return value
   .query(({ input }) => {
     const results = stationNames.filter(([, stationName]) =>
       stationName.toLowerCase().includes(input.search.toLowerCase()),
@@ -41,6 +40,6 @@ const tubeStations = procedure
       results,
       numberOfEntries: results.length,
     };
-  });
+  })
 
 export default tubeStations;
