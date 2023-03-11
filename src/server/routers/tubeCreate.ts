@@ -16,7 +16,7 @@ const tubeStationsCreate = procedure
     return new Promise((resolve, reset) => {
       setTimeout(() => {
         resolve(returnValue);
-      }, 5000);
+      }, 2500);
     });
   });
 
