@@ -19,7 +19,7 @@ export default function Home() {
 
     const results = stationsMutation.data?.results;
     console.log(results);
-    setNewStations(results)
+    setNewStations(results);
   };
 
   return (
@@ -34,15 +34,13 @@ export default function Home() {
         <form>
           <label htmlFor="stations">Station name</label>{' '}
           <input list="stations" name="stations" onChange={handleChange} value={inputValue} />
-
           <div>
             <button type="button" onClick={handleClick}>
               Add "King William Street Station"
             </button>
-            <hr/>
+            <hr />
             <code>{JSON.stringify(newStations)}</code>
           </div>
-
           <h2>Results</h2>
           <p>
             <output>{stations.data?.numberOfEntries ?? 0}</output> entries found.

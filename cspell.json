@@ -1,4 +1,4 @@
 {
   "language": "en-GB",
-  "ignoreWords": ["Bakerloo", "visicalc"]
+  "ignoreWords": ["Bakerloo", "visicalc", "rtcp"]
 }
