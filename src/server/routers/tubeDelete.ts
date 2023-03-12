@@ -59,6 +59,11 @@ const tubeStationsDelete = procedure
           code: 'BAD_REQUEST',
           message: error.message || 'spreadsheets update error',
         });
+      } else {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'unknown error',
+        });
       }
     }
   });
