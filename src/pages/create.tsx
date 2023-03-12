@@ -11,11 +11,10 @@ export default function Home() {
   const stationsMutation = trpc.tubeStationsCreate.useMutation();
   const { isError, isLoading, isSuccess, failureReason } = stationsMutation;
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(event.currentTarget.value);
   };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     stationsMutation.mutate({ name: inputValue });
   };
@@ -34,9 +33,13 @@ export default function Home() {
           <label htmlFor="stations">Station name</label>{' '}
           <input list="stations" name="stations" onChange={handleChange} value={inputValue} />
           <div>
-            {isError && <p>Error: {failureReason?.message ?? 'Error'}</p>}
             {isLoading && <p>Loading</p>}
-            {isSuccess && <code>{JSON.stringify(stationsMutation.data)}</code>}
+            {isError && <p>Error: {failureReason?.message ?? 'Error'}</p>}
+            {isSuccess && (
+              <p>
+                <code>{JSON.stringify(stationsMutation.data)}</code>
+              </p>
+            )}
           </div>
           <button type="submit">Add station</button>
         </form>
