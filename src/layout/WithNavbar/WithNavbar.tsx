@@ -8,6 +8,8 @@ export default function WithNavbar({ children }: WithNavbarProps) {
         <Link href="/">Home</Link>
         {' '}
         <Link href="/create">Create</Link>
+        {' '}
+        <Link href="/delete">Delete</Link>
       </nav>
       {children}
     </>

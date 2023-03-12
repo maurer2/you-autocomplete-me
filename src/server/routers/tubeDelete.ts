@@ -9,7 +9,7 @@ const spreadsheetId = process.env.DB_SHEET;
 const sheetRange = process.env.DB_SUBSHEET;
 const sheets = google.sheets('v4');
 
-const tubeStationsCreate = procedure
+const tubeStationsDelete = procedure
   .input(
     z.object({
       name: z.string().min(3, 'Please enter at least 3 characters.'),
@@ -31,30 +31,36 @@ const tubeStationsCreate = procedure
       }
     });
 
-    return sheets.spreadsheets.values
-      .append({
+    try {
+      const valuesResponse = await sheets.spreadsheets.values.get({
         auth: jwtClient,
         spreadsheetId,
         range: sheetRange,
-        valueInputOption: 'RAW',
-        insertDataOption: 'INSERT_ROWS',
-        requestBody: {
-          values: [[input.name]],
-        },
-      })
-      .then((response) => response.data)
-      .catch((error: unknown) => {
-        if (error instanceof Error) {
-          throw new TRPCError({
-            code: 'BAD_REQUEST',
-            message: error.message || 'spreadsheets update error',
-          });
-        }
+      });
+
+      const { values } = valuesResponse.data;
+      if (!values) {
+        throw new Error("spreadsheets values can't be read");
+      }
+
+      if (!values.length) {
+        return 'list is empty';
+      }
+
+      const foundValues = values.filter((value: string[]) => value[0].includes(input.name));
+
+      return foundValues.length
+        ? 'has been found'
+        : 'has not been found'
+      ;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         throw new TRPCError({
           code: 'BAD_REQUEST',
-          message: 'unknown error',
+          message: error.message || 'spreadsheets update error',
         });
-      });
+      }
+    }
   });
 
-export default tubeStationsCreate;
+export default tubeStationsDelete;
