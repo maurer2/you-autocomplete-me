@@ -7,16 +7,15 @@ import { trpc } from '../utils/trpc';
 
 export default function Create() {
   const [inputValue, setInputValue] = useState('');
-
-  const stationsMutation = trpc.tubeStationsCreate.useMutation();
-  const { isError, isLoading, isSuccess, failureReason } = stationsMutation;
+  const { isError, isLoading, isSuccess, failureReason, mutate, data } =
+    trpc.tubeStationsCreate.useMutation();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(event.currentTarget.value);
   };
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    stationsMutation.mutate({ name: inputValue });
+    mutate({ name: inputValue });
   };
 
   return (
@@ -37,7 +36,7 @@ export default function Create() {
             {isError && <p>Error: {failureReason?.message ?? 'Error'}</p>}
             {isSuccess && (
               <p>
-                <code>{JSON.stringify(stationsMutation.data)}</code>
+                <code>{JSON.stringify(data)}</code>
               </p>
             )}
           </div>

@@ -2,15 +2,16 @@ import Head from 'next/head';
 import type { MouseEvent } from 'react';
 
 import styles from '@/styles/Home.module.css';
+import ResultsTable from '@/components/ResultsTable';
 import { trpc } from '../utils/trpc';
 
 export default function Read() {
-  const stationsQuery = trpc.tubeStationsRead.useQuery();
-  const { isError, isLoading, isSuccess, failureReason, refetch } = stationsQuery;
+  const { isError, isLoading, isSuccess, failureReason, refetch, data } =
+    trpc.tubeStationsRead.useQuery();
 
-  const handleClick = async (event: MouseEvent<HTMLButtonElement>): Promise<void> => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
-    await refetch();
+    refetch().catch(() => {});
   };
 
   return (
@@ -26,11 +27,7 @@ export default function Read() {
         <div>
           {isLoading && <p>Loading</p>}
           {isError && <p>Error: {failureReason?.message ?? 'Error'}</p>}
-          {isSuccess && (
-            <p>
-              <code>{JSON.stringify(stationsQuery.data)}</code>
-            </p>
-          )}
+          {isSuccess && <ResultsTable data={data} />}
         </div>
         <button type="button" onClick={handleClick}>
           List values
